@@ -3,6 +3,30 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.3.
 
 ## Development server
+Create Comands for the server and client
+`ng new ProjectName`
+
+Create Components
+`ng g c ComponentName`
+
+Create Services
+`ng g s ServiceName`
+
+Create Models
+`ng g class ModelName`
+
+Create Guards
+`ng g g GuardName`
+
+Create Interfaces
+`ng g i InterfaceName`
+
+Create Pipes
+`ng g p PipeName`
+
+Create Directives
+`ng g d DirectiveName`
+
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
