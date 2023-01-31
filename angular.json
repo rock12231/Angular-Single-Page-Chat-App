@@ -98,9 +98,18 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "Chat:build:production",
+            "firebaseProject": "chat-e2390",
+            "firebaseHostingSite": "chat-e2390"
+          }
         }
       }
     }
-  },
-  "defaultProject": "Chat"
+  }
 }

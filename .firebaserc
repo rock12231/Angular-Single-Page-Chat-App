@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "chat-e2390": {
+      "hosting": {
+        "Chat": [
+          "chat-e2390"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "chat-e2390"
+  }
+}
