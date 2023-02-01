@@ -16,6 +16,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from "./shared/services/auth.service";
+import { ChatService } from './shared/services/chat.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { AuthService } from "./shared/services/auth.service";
   ],
   providers: [
     ScreenTrackingService,UserTrackingService,
-    AuthService
+    AuthService,
+    ChatService
   ],
   bootstrap: [AppComponent]
 })

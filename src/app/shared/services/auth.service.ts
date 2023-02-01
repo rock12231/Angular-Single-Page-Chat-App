@@ -54,6 +54,7 @@ export class AuthService {
         up and returns promise */
         // this.SendVerificationMail();
         this.SetUserData(result.user);
+        this.router.navigate(['login']);
       })
       .catch((error) => {
         window.alert(error.message);
