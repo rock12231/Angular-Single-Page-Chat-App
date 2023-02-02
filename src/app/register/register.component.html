@@ -8,6 +8,12 @@
             <div class="formGroup">
                 <input type="password" class="formControl" placeholder="Password" #userPwd required />
             </div>
+            <!-- <label *ngFor="let img of imgList">
+                <input type="radio" name="" value="{{img}}" #img required>
+                <img src="{{img}}" alt="avatar" style="border-radius: 50%; height: 45px; ">
+            </label> -->
+            
+          
             <div class="formGroup">
                 <input type="button" class="btn btnPrimary" value="Sign Up"
                     (click)="register(userEmail.value, userPwd.value)" />
@@ -15,6 +21,7 @@
             <div class="formGroup">
                 <span class="or"><span class="orInner">Or</span></span>
             </div>
+           
             <!-- Continue with Google -->
             <!-- <div class="formGroup">
                 <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">

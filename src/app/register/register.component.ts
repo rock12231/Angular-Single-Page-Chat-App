@@ -13,6 +13,17 @@ export class RegisterComponent implements OnInit {
   itemRef: AngularFireObject<any>;
   item: Observable<any>;
 
+  imgList: any = [
+    "https://bootdey.com/img/Content/avatar/avatar1.png" ,
+    "https://bootdey.com/img/Content/avatar/avatar2.png" ,
+    "https://bootdey.com/img/Content/avatar/avatar3.png" ,
+    "https://bootdey.com/img/Content/avatar/avatar4.png" ,
+    "https://bootdey.com/img/Content/avatar/avatar5.png" ,
+    "https://bootdey.com/img/Content/avatar/avatar6.png" ,
+    "https://bootdey.com/img/Content/avatar/avatar7.png" ,
+    "https://bootdey.com/img/Content/avatar/avatar8.png"
+  ]
+
   constructor(public authService: AuthService, public db: AngularFireDatabase) {
     this.itemRef = db.object('Users/');
     this.item = this.itemRef.valueChanges();
@@ -34,12 +45,15 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void { }
 
   register(email: string, password: string) {
+    // Randomly select an image from the list
+    var randomImage = this.imgList[Math.floor(Math.random() * this.imgList.length)];
     this.authService.SignUp(email, password)
     var ref = this.db.database.ref("Users/List")
     ref.push({
-      "user": email,
-      "image": "https://bootdey.com/img/Content/avatar/avatar1.png",
-      "Created": Date.now().toString()
+      "User": email,
+      "Image": randomImage,
+      "Created_at": Date.now(),
+      "Lastseen" : Date.now()
     })
   }
 }

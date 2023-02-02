@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase, AngularFireObject } from '@angular/fire/compat/database';
-import { Observable } from 'rxjs';
 import { AuthService } from '../shared/services/auth.service';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-chat-app',
@@ -45,8 +46,13 @@ export class ChatAppComponent implements OnInit {
 
 
   userlist: any
-  username: any
-  lastseen: any
+  Username: any
+  Lastseen: any
+
+  sender: any={
+    "Username": "user_name",
+  
+  }
 
   selectchat:boolean = false
 
@@ -54,65 +60,73 @@ export class ChatAppComponent implements OnInit {
   result: any
   chatref: any
   chatlist: any
+  getdata:any
+  ids: string[] = [];
 
-  imgList: any = [
-    {img1:"https://bootdey.com/img/Content/avatar/avatar1.png"},
-    {img2:"https://bootdey.com/img/Content/avatar/avatar2.png"},
-    {img3:"https://bootdey.com/img/Content/avatar/avatar3.png"},
-    {img4:"https://bootdey.com/img/Content/avatar/avatar4.png"},
-    {img5:"https://bootdey.com/img/Content/avatar/avatar5.png"},
-    {img6:"https://bootdey.com/img/Content/avatar/avatar6.png"},
-    {img7:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-    {img8:"https://bootdey.com/img/Content/avatar/avatar8.png"}
-  ]
-
-  constructor(public db: AngularFireDatabase, public authService: AuthService) {
-    // this.itemRef = db.object('title');
-    // this.item = this.itemRef.valueChanges();
-    // console.log(this.item);
-    // this.itemRef = this.db.object('Chat/')
-    // this.itemRef.update(this.data)
-
+  constructor(public db: AngularFireDatabase, public authService: AuthService, private http: HttpClient) {
     // Get Logged in user
     var user = JSON.parse(localStorage.getItem('user')!)
     this.currentUser = user.email
     console.log(this.currentUser, "current user")
-
-    var ref = this.db.database.ref("Users/List");
-
-    // Retrieve the chat user list
-    ref.on("value", snapshot => {
+   
+    // this.http.get('https://chat-e2390-default-rtdb.firebaseio.com/Users/List').subscribe(data => {
+    //   this.getdata = data;
+    //   console.log(this.getdata);
+    // });
+    
+    // Retrive Users data
+    var re = this.db.database.ref("Users/List")
+    re.on("value", snapshot => {
       console.log(snapshot.val());
       this.userlist = Object.values(snapshot.val());
-      this.result = this.userlist.filter((obj: { user: any; }) => obj.user === this.currentUser)[0]
-      console.log(this.result.Created);
     });
-
+    // Retrive Current User ID
+    re.orderByChild("User").equalTo(this.currentUser).on("child_added",  (snapshot) => {
+      console.log(snapshot.key, "key user data");
+      // Update Last seen of Current User
+      var ref = this.db.database.ref("Users/List/" + snapshot.key)
+      ref.update({
+        "Lastseen": Date.now().toString()
+      })
+      // Retrive Current User data
+      ref.on("value", snapshot => {
+        console.log(snapshot.val());
+        this.result = snapshot.val()
+        console.log(this.result, "result");
+      })
+    })
   }
 
   ngOnInit(){}  
 
-  openchat(user: any, lastseen: any) {
+  openchat(user: any, Created_at: any, Lastseen: any) {
+    // Active class Apply
+    var li = document.getElementsByTagName("li")
+    for (var i = 0; i < li.length; i++) {
+      li[i].classList.remove("active")
+    }
+    var classAdd = document.getElementById(user)
+    classAdd?.classList.add("active")
     this.selectchat = true
-    this.username = user
-    var chatname = "Chat" + (Number(this.result.Created) + Number(lastseen))
-    console.log(chatname, "chatname")
-    var ref = this.db.database.ref("Chats/List/" + chatname)
+    this.Username = user
+    this.Lastseen = Lastseen
+    var Chatname = "Chat" + (Number(this.result.Created_at) + Number(Created_at))
+    console.log(Chatname, "chatname")
+    // User Chat data create
+    var ref = this.db.database.ref("Chats/List/" + Chatname + "/Info")
     ref.update({
       "User1": this.currentUser,
-      "User2": this.username,
-      "lastseen": Date.now().toString(),
+      "User2": this.Username,
     })
-
-    this.chatref = this.db.database.ref("Chats/List/" + chatname + "/Messages")
+    // Retrive Chat data
+    this.chatref = this.db.database.ref("Chats/List/" + Chatname + "/Messages")
     this.chatref.on("value", (snapshot: { val: () => { [s: string]: unknown; } | ArrayLike<unknown>; }) => {
       console.log(snapshot.val());
       this.chatlist = Object.values(snapshot.val());
       console.log(this.chatlist);
     });
-
   }
-
+  // Send Message
   sendMessage(message: any) {
     this.chatref.push({
       "sender": this.currentUser,
@@ -120,5 +134,44 @@ export class ChatAppComponent implements OnInit {
       "Created": Date.now().toString()
     })
   }
+  // Get Last Seen
+  getLastseen(lastSeen:any): string {
+    let currentTime = new Date();
+    let timeDifference = currentTime.getTime() - lastSeen
+    let diffInMinutes = Math.floor(timeDifference / (1000 * 60))
+    let hours = Math.floor(diffInMinutes / 60);
+    let minutes = diffInMinutes % 60;
+    let time = hours + 'hr ' + minutes + 'min';
+    if(hours == 0 && minutes == 0){
+        time = 'Online'
+    }
+    if (hours == 0 && minutes > 2) {
+        time = minutes + ' mins ago'
+    }
+    else{
+      time = time + ' ago'
+    }
+    return time;
+  }
+  // Notification
+  showNotification() {
+    if (Notification.permission === 'granted') {
+      const notification = new Notification('Notification Title', {
+        body: 'This is the notification body text',
+        icon: 'path/to/icon.png'
+      });
+    } else {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          const notification = new Notification('Notification Title', {
+            body: 'This is the notification body text',
+            icon: 'path/to/icon.png'
+          });
+        }
+      });
+    }
+  }
+
+
 
 }
