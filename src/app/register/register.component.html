@@ -58,14 +58,21 @@
             <input type="text" class="form-control" placeholder="Email" #userName required>
         </div>
         <div class="loginbox-textbox">
-            <input type="text" class="form-control" placeholder="Password" #userPassword required>
+            <input type="password" class="form-control" placeholder="Password" #userPassword required (keydown.enter)="register(userName.value, userPassword.value)">
         </div>
         <!-- <div class="loginbox-forgot">
             <a routerLink="/forgot">Forgot Password?</a>
         </div> -->
         <div class="loginbox-submit">
-            <input type="button" class="btn btn-primary btn-block" value="Register"
+            <a type="button" class="btn btn-primary btn-block text-light"
                 (click)="register(userName.value, userPassword.value)">
+                <div *ngIf="Loading == true" class="spinner-border spinner-border-sm text-light mr-3" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div *ngIf="Loading == false">
+                    Register
+                </div>
+            </a>
         </div>
         <div class="loginbox-signup">
             <a routerLink="/login">Login Here</a>

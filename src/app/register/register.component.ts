@@ -13,6 +13,8 @@ export class RegisterComponent implements OnInit {
   itemRef: AngularFireObject<any>;
   item: Observable<any>;
 
+  Loading: boolean = false
+
   imgList: any = [
     "https://bootdey.com/img/Content/avatar/avatar1.png" ,
     "https://bootdey.com/img/Content/avatar/avatar2.png" ,
@@ -45,8 +47,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void { }
 
   register(email: string, password: string) {
-    var btn = document.getElementById("register")
-    btn?.setAttribute("disabled", "true")
+    this.Loading = true
     // Randomly select an image from the list
     var randomImage = this.imgList[Math.floor(Math.random() * this.imgList.length)];
     if(email != "" && password != "" && email.length > 4 && password.length > 4){

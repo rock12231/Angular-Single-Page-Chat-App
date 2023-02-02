@@ -1,7 +1,7 @@
-<button (click)="showNotification()">Show Notification </button>
-<div>
+<!-- <button (click)="showNotification()">Show Notification </button> -->
+<!-- <div> -->
     <!-- {{userlist|json}} -->
-        Current User : {{currentUser}}
+        <!-- Current User : {{currentUser}} -->
     <!-- <ul>
         <li *ngFor="let users of userlist">
             {{users.user}}
@@ -10,22 +10,41 @@
     <br>
     <br>
     <div>{{result|json}}</div> -->
-</div>
+<!-- </div> -->
 
 <div class="container">
     <div class="row clearfix">
         <div class="col-lg-12">
-            <div class="card chat-app">
-                <div id="plist" class="people-list">
+            <div *ngIf="result" class="card chat-app">
+                <div id="plist" class="people-list">               
+                    <div class="input-group bg-secondary">
+                        <div class="row py-2 px-3">
+                            <div class="col-6">
+                                <img src="{{result.Image}}" alt="avatar" width="45px">
+                            </div>
+                            <div class="col-6">
+                                <a (click)="authService.SignOut()" class="btn btn-outline-warning float-right">
+                                    <i class="fa fa-arrow-circle-right" data-bs-toggle="tooltip" data-bs-placement="top" title="Logout"></i>
+                                </a>
+                            </div>
+                            <div class="col-12 text-center">
+                                <span class="d-block p-1 bg-secondary text-white">
+                                    <div class="name font-weight-bold">{{result.User}}</div>
+                                    <div class="status font-italic text-warning">Join Date: {{result.Created_at|date}}</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-search"></i></span>
                         </div>
                         <input type="text" class="form-control" placeholder="Search...">
                     </div>
-                    <ul class="list-unstyled chat-list mt-2 mb-0 overflow-auto" style="height: 500px;">
-                        <li *ngFor="let user of userlist" class="clearfix" id="{{user.User}}">
-                            <div *ngIf="user.User != currentUser"  (click)="openchat(user.User, user.Created_at, user.Lastseen)">
+                    <ul class="list-unstyled chat-list mt-2 mb-0 overflow-auto" style="height: 420px;">
+                        <li *ngFor="let user of userlist" class="clearfix" id="{{user.User}}" (click)="openchat(user.User, user.Created_at, user.Lastseen)">
+                            <div *ngIf="user.User">
                                 <img src="{{user.Image}}" alt="avatar">
                                 <div class="about">
                                     <div class="name">{{user.User}}</div>
@@ -53,15 +72,16 @@
                                 <a href="" class="btn mx-1 btn-outline-secondary"><i class="fa fa-camera"></i></a>
                                 <a href="" class="btn mx-1 btn-outline-primary"><i class="fa fa-image"></i></a>
                                 <a href="" class="btn mx-1 btn-outline-info"><i class="fa fa-cogs"></i></a>
-                                <a (click)="authService.SignOut()" class="btn btn-outline-warning"><i
-                                        class="fa fa-arrow-circle-right"></i></a>
+                                <a class="btn btn-outline-warning" data-toggle="modal" data-target="#staticBackdrop">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <div class="chat-history overflow-auto" style="height: 500px;" #scrollMe>
+                    <div class="chat-history overflow-auto" style="height: 500px;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
                         <ul class="m-b-0">
                             <li *ngFor="let chat of chatlist" class="clearfix">
-                                <div *ngIf="chat.sender != currentUser">
+                                <div *ngIf="chat.sender != currentUser && chat.message">
                                     <div class="message-data text-right">
                                         <span class="message-data-time">{{chat.Created|date:'shortTime'}}</span>
                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
@@ -70,7 +90,7 @@
                                         {{chat.message}}
                                     </div>
                                 </div>
-                                <div *ngIf="chat.sender == currentUser">
+                                <div *ngIf="chat.sender == currentUser && chat.message">
                                     <div class="message-data">
                                         <span class="message-data-time">{{chat.Created|date:'EEE h:mm a'}}</span>
                                     </div>
@@ -78,6 +98,12 @@
                                         {{chat.message}}
                                     </div>
                                 </div>
+                                <div *ngIf="chat.error">
+                                    <div class="text-center">
+                                        <span class="message-data-time">No Message</span>
+                                    </div>
+                                </div>
+
                             </li>
                             <!-- <li class="clearfix">
                                 <div class="message-data">
@@ -101,10 +127,32 @@
                             <div class="input-group-prepend" (click)="sendMessage(message.value)">
                                 <span class="input-group-text"><i class="fa fa-send"></i></span>
                             </div>
-                            <input type="text" class="form-control" #message placeholder="Enter text here...">
+                            <input type="text" id="message" class="form-control" #message placeholder="{{Placeholder}}" (keydown.enter)="sendMessage(message.value)">
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Delete All Messages</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               Do you want to delete this chat?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button (click)="deleteChat()" type="button" data-dismiss="modal" class="btn btn-danger">Delete</button>
             </div>
         </div>
     </div>

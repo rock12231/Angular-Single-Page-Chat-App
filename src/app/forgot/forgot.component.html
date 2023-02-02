@@ -1,4 +1,4 @@
-<div class="displayTable">
+<!-- <div class="displayTable">
     <div class="displayTableCell">
         <div class="authBlock">
             <h3>Reset Password</h3>
@@ -6,7 +6,6 @@
             <div class="formGroup">
                 <input type="email" class="formControl" placeholder="Email Address" #passwordResetEmail required>
             </div>
-            <!-- Calling ForgotPassword from AuthService Api -->
             <div class="formGroup">
                 <input type="submit" class="btn btnPrimary" value="Reset Password"
                     (click)="authService.ForgotPassword(passwordResetEmail.value)">
@@ -16,4 +15,27 @@
             <span>Go back to ? <span class="redirect" routerLink="/login">Log In</span></span>
         </div>
     </div>
+</div> -->
+
+
+
+<div class="login-container animated fadeInDown bootstrap snippets bootdeys">
+    <div class="loginbox bg-white">
+        <div class="loginbox-title">Forget Password</div>
+        <div class="loginbox-textbox">
+            <input type="text" class="form-control" placeholder="Email" #passwordResetEmail required>
+        </div>
+        <div class="loginbox-submit">
+            <input type="button" class="btn btn-primary btn-block" value="Login"
+                (click)="authService.ForgotPassword(passwordResetEmail.value)">
+        </div>
+        <div class="loginbox-signup">
+            <a routerLink="/register">Register With Email</a>
+        </div>
+        <div class="loginbox-signup">
+            <a routerLink="/login">Login Here</a>
+        </div>
+    </div>
+    <!-- <div class="logobox">
+    </div> -->
 </div>

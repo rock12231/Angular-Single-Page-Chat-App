@@ -1,8 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ChangeDetectorRef, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase, AngularFireObject } from '@angular/fire/compat/database';
 import { AuthService } from '../shared/services/auth.service';
 import { HttpClient } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-chat-app',
@@ -10,6 +9,10 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./chat-app.component.css']
 })
 export class ChatAppComponent implements OnInit {
+
+  @ViewChild('message') message: ElementRef|any
+
+
 
   // itemRef: AngularFireObject<any>;
   // item: Observable<any>;
@@ -44,7 +47,7 @@ export class ChatAppComponent implements OnInit {
     }
   }
 
-
+  Placeholder:any = "Type a message..."
   userlist: any
   Username: any
   Lastseen: any
@@ -62,8 +65,12 @@ export class ChatAppComponent implements OnInit {
   chatlist: any
   getdata:any
   ids: string[] = [];
-
-  constructor(public db: AngularFireDatabase, public authService: AuthService, private http: HttpClient) {
+  items:any
+  constructor(public db: AngularFireDatabase,
+              public authService: AuthService, 
+              private http: HttpClient,
+              private cdref: ChangeDetectorRef
+              ) {
     // Get Logged in user
     var user = JSON.parse(localStorage.getItem('user')!)
     this.currentUser = user.email
@@ -79,6 +86,10 @@ export class ChatAppComponent implements OnInit {
     re.on("value", snapshot => {
       console.log(snapshot.val());
       this.userlist = Object.values(snapshot.val());
+      console.log(this.userlist,"All users");
+      // this.items = this.items.filter((item: { id: number; }) => item.id !== 2);
+      this.userlist = this.userlist.filter((Data: { User: string; }) => Data.User !== this.currentUser)
+      console.log(this.userlist,"Remove current user");
     });
     // Retrive Current User ID
     re.orderByChild("User").equalTo(this.currentUser).on("child_added",  (snapshot) => {
@@ -97,18 +108,28 @@ export class ChatAppComponent implements OnInit {
     })
   }
 
-  ngOnInit(){}  
+  ngOnInit(){
 
-  openchat(user: any, Created_at: any, Lastseen: any) {
+    this.items = [
+      { id: 1, name: 'Item 1' },
+      { id: 2, name: 'Item 2' },
+      { id: 3, name: 'Item 3' }
+    ];
+      console.log(this.items)
+      this.items = this.items.filter((item: { id: number; }) => item.id !== 2);
+      console.log(this.items)
+  }  
+
+  openchat(User: any, Created_at: any, Lastseen: any) {
     // Active class Apply
     var li = document.getElementsByTagName("li")
     for (var i = 0; i < li.length; i++) {
       li[i].classList.remove("active")
     }
-    var classAdd = document.getElementById(user)
+    var classAdd = document.getElementById(User)
     classAdd?.classList.add("active")
     this.selectchat = true
-    this.Username = user
+    this.Username = User
     this.Lastseen = Lastseen
     var Chatname = "Chat" + (Number(this.result.Created_at) + Number(Created_at))
     console.log(Chatname, "chatname")
@@ -120,20 +141,46 @@ export class ChatAppComponent implements OnInit {
     })
     // Retrive Chat data
     this.chatref = this.db.database.ref("Chats/List/" + Chatname + "/Messages")
-    this.chatref.on("value", (snapshot: { val: () => { [s: string]: unknown; } | ArrayLike<unknown>; }) => {
+    this.chatref.on("value", (snapshot: {
+      exists(): unknown; val: () => { [s: string]: unknown; } | ArrayLike<unknown>; }) => {
+      if (snapshot.exists()) {
       console.log(snapshot.val());
-      this.chatlist = Object.values(snapshot.val());
+      this.chatlist = Object.values(snapshot.val())
       console.log(this.chatlist);
-    });
+      }
+      else {
+        this.chatlist = [
+          {
+            "error": "No messages"
+          }
+        ]
+        console.error("The path does not exist in the database");
+      }
+  })
+
+
+
+    
   }
   // Send Message
   sendMessage(message: any) {
-    this.chatref.push({
-      "sender": this.currentUser,
-      "message": message,
-      "Created": Date.now().toString()
-    })
+    if(message == ""){
+      this.Placeholder = "Please enter message !!!"
+    }
+    else{
+      this.chatref.push({
+        "sender": this.currentUser,
+        "message": message,
+        "Created": Date.now().toString()
+      })
+      this.message.nativeElement.value = '';
+    }
   }
+
+  deleteChat(){
+    this.chatref.remove()
+  }
+
   // Get Last Seen
   getLastseen(lastSeen:any): string {
     let currentTime = new Date();
@@ -172,6 +219,8 @@ export class ChatAppComponent implements OnInit {
     }
   }
 
-
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
+  }
 
 }

@@ -8,9 +8,14 @@ import { AuthService } from "../shared/services/auth.service";
 })
 export class LoginComponent implements OnInit {
 
+  Loading: boolean = false
   constructor( public authService: AuthService ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  }
+
+  login(email:any,password:any){
+    this.Loading = true
+    this.authService.SignIn(email, password)
   }
 
 }
