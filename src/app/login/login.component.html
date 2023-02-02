@@ -1,21 +1,20 @@
-<div class="displayTable">
+<!-- <div class="displayTable">
     <div class="displayTableCell">
         <div class="authBlock">
-            <h3>Sign In</h3>
+            <h3>Login In</h3>
             <div class="formGroup">
                 <input type="text" class="formControl" placeholder="Username" #userName required>
             </div>
             <div class="formGroup">
                 <input type="password" class="formControl" placeholder="Password" #userPassword required>
             </div>
-            <!-- Calling SignIn Api from AuthService -->
             <div class="formGroup">
                 <input type="button" class="btn btnPrimary" value="Log in"
                     (click)="authService.SignIn(userName.value, userPassword.value)">
             </div>
             <div class="formGroup">
                 <span class="or"><span class="orInner">Or</span></span>
-            </div>
+            </div> -->
             <!-- Calling GoogleAuth Api from AuthService -->
             <!-- <div class="formGroup">
                 <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
@@ -23,7 +22,7 @@
                     Log in with Google
                 </button>
             </div> -->
-            <div class="forgotPassword">
+            <!-- <div class="forgotPassword">
                 <span routerLink="/forgot">Forgot Password?</span>
             </div>
         </div>
@@ -31,4 +30,46 @@
             <span>Don't have an account?<span class="redirect" routerLink="/register"> Sign Up</span></span>
         </div>
     </div>
+</div> -->
+
+
+<div class="login-container animated fadeInDown bootstrap snippets bootdeys">
+    <div class="loginbox bg-white">
+        <div class="loginbox-title">LogIn</div>
+        <!-- <div class="loginbox-social">
+            <div class="social-title ">Connect with Your Social Accounts</div>
+            <div class="social-buttons">
+                <a href="" class="button-facebook">
+                    <i class="social-icon fa fa-facebook"></i>
+                </a>
+                <a href="" class="button-twitter">
+                    <i class="social-icon fa fa-twitter"></i>
+                </a>
+                <a href="" class="button-google">
+                    <i class="social-icon fa fa-google-plus"></i>
+                </a>
+            </div>
+        </div>
+        <div class="loginbox-or">
+            <div class="or-line"></div>
+            <div class="or">OR</div>
+        </div> -->
+        <div class="loginbox-textbox">
+            <input type="text" class="form-control" placeholder="Email" #userName required>
+        </div>
+        <div class="loginbox-textbox">
+            <input type="text" class="form-control" placeholder="Password" #userPassword required>
+        </div>
+        <div class="loginbox-forgot">
+            <a routerLink="/forgot">Forgot Password?</a>
+        </div>
+        <div class="loginbox-submit">
+            <input type="button" class="btn btn-primary btn-block" value="Login" (click)="authService.SignIn(userName.value, userPassword.value)">
+        </div>
+        <div class="loginbox-signup">
+            <a routerLink="/register">Sign Up With Email</a>
+        </div>
+    </div>
+    <!-- <div class="logobox">
+    </div> -->
 </div>

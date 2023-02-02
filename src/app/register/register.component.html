@@ -1,4 +1,4 @@
-<div class="displayTable">
+<!-- <div class="displayTable">
     <div class="displayTableCell">
         <div class="authBlock">
             <h3>Sign Up</h3>
@@ -7,20 +7,15 @@
             </div>
             <div class="formGroup">
                 <input type="password" class="formControl" placeholder="Password" #userPwd required />
-            </div>
-            <!-- <label *ngFor="let img of imgList">
-                <input type="radio" name="" value="{{img}}" #img required>
-                <img src="{{img}}" alt="avatar" style="border-radius: 50%; height: 45px; ">
-            </label> -->
-            
+            </div>         
           
             <div class="formGroup">
-                <input type="button" class="btn btnPrimary" value="Sign Up"
+                <input type="button" class="btn btnPrimary" value="Sign Up" id="register"
                     (click)="register(userEmail.value, userPwd.value)" />
             </div>
             <div class="formGroup">
                 <span class="or"><span class="orInner">Or</span></span>
-            </div>
+            </div> -->
            
             <!-- Continue with Google -->
             <!-- <div class="formGroup">
@@ -29,10 +24,53 @@
                     Continue with Google
                 </button>
             </div> -->
-        </div>
+        <!-- </div>
         <div class="redirectToLogin">
             <span>Already have an account?
                 <span class="redirect" routerLink="/login">Log In</span></span>
         </div>
     </div>
+</div> -->
+
+
+<div class="login-container animated fadeInDown bootstrap snippets bootdeys">
+    <div class="loginbox bg-white">
+        <div class="loginbox-title">Register</div>
+        <!-- <div class="loginbox-social">
+            <div class="social-title ">Connect with Your Social Accounts</div>
+            <div class="social-buttons">
+                <a href="" class="button-facebook">
+                    <i class="social-icon fa fa-facebook"></i>
+                </a>
+                <a href="" class="button-twitter">
+                    <i class="social-icon fa fa-twitter"></i>
+                </a>
+                <a href="" class="button-google">
+                    <i class="social-icon fa fa-google-plus"></i>
+                </a>
+            </div>
+        </div>
+        <div class="loginbox-or">
+            <div class="or-line"></div>
+            <div class="or">OR</div>
+        </div> -->
+        <div class="loginbox-textbox">
+            <input type="text" class="form-control" placeholder="Email" #userName required>
+        </div>
+        <div class="loginbox-textbox">
+            <input type="text" class="form-control" placeholder="Password" #userPassword required>
+        </div>
+        <!-- <div class="loginbox-forgot">
+            <a routerLink="/forgot">Forgot Password?</a>
+        </div> -->
+        <div class="loginbox-submit">
+            <input type="button" class="btn btn-primary btn-block" value="Register"
+                (click)="register(userName.value, userPassword.value)">
+        </div>
+        <div class="loginbox-signup">
+            <a routerLink="/login">Login Here</a>
+        </div>
+    </div>
+    <!-- <div class="logobox">
+    </div> -->
 </div>

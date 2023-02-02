@@ -45,15 +45,22 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void { }
 
   register(email: string, password: string) {
+    var btn = document.getElementById("register")
+    btn?.setAttribute("disabled", "true")
     // Randomly select an image from the list
     var randomImage = this.imgList[Math.floor(Math.random() * this.imgList.length)];
-    this.authService.SignUp(email, password)
-    var ref = this.db.database.ref("Users/List")
-    ref.push({
-      "User": email,
-      "Image": randomImage,
-      "Created_at": Date.now(),
-      "Lastseen" : Date.now()
-    })
+    if(email != "" && password != "" && email.length > 4 && password.length > 4){
+      this.authService.SignUp(email, password)
+      var ref = this.db.database.ref("Users/List")
+      ref.push({
+        "User": email,
+        "Image": randomImage,
+        "Created_at": Date.now(),
+        "Lastseen" : Date.now()
+      })
+    }
+    else{
+      alert("Please enter email and password")
+    }
   }
 }

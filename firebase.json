@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "help30",
+    "site": "chat30",
     "public": "dist/Chat",
     "ignore": [
       "**/.*"
