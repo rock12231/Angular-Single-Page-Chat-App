@@ -211,6 +211,10 @@
       height: 0
   }
 
+  .chat-app .people-btn {
+        display: none
+  }
+
   @media only screen and (max-width: 767px) {
       .chat-app .people-list {
           height: 465px;
@@ -219,6 +223,18 @@
           background: #fff;
           left: -400px;
           display: none
+      }
+
+      .chat-app .people-btn{
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 9;
+          padding: 10px 15px;
+          background: #fff;
+          border: 1px solid #eaeaea;
+          border-radius: 0.55rem 0 0 0.55rem
       }
 
       .chat-app .people-list.open {

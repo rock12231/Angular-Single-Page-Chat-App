@@ -12,50 +12,15 @@ export class ChatAppComponent implements OnInit {
 
   @ViewChild('message') message: ElementRef|any
 
-
-
-  // itemRef: AngularFireObject<any>;
-  // item: Observable<any>;
-  data = {
-    "users": {
-      "user_id_1": {
-        "username": "User 1",
-        "email": "user1@example.com"
-      },
-      "user_id_2": {
-        "username": "User 2",
-        "email": "user2@example.com"
-      }
-    },
-    "chats": {
-      "chat_id_1": {
-        "user_id_1": "user_id_1",
-        "user_id_2": "user_id_2",
-        "messages": {
-          "message_id_1": {
-            "sender_id": "user_id_1",
-            "text": "Hello User 2!",
-            "timestamp": 1609472400
-          },
-          "message_id_2": {
-            "sender_id": "user_id_2",
-            "text": "Hi User 1!",
-            "timestamp": 1609472500
-          }
-        }
-      }
-    }
-  }
-
   Placeholder:any = "Type a message..."
   userlist: any
   Username: any
   Lastseen: any
+  img:any
 
-  sender: any={
-    "Username": "user_name",
-  
-  }
+  // sender: any={
+  //   "Username": "user_name",
+  // }
 
   selectchat:boolean = false
 
@@ -69,11 +34,12 @@ export class ChatAppComponent implements OnInit {
   constructor(public db: AngularFireDatabase,
               public authService: AuthService, 
               private http: HttpClient,
-              private cdref: ChangeDetectorRef
+              private cdref: ChangeDetectorRef,
               ) {
     // Get Logged in user
     var user = JSON.parse(localStorage.getItem('user')!)
     this.currentUser = user.email
+    console.log(user, "user")
     console.log(this.currentUser, "current user")
    
     // this.http.get('https://chat-e2390-default-rtdb.firebaseio.com/Users/List').subscribe(data => {
@@ -108,19 +74,9 @@ export class ChatAppComponent implements OnInit {
     })
   }
 
-  ngOnInit(){
+  ngOnInit(){ }  
 
-    this.items = [
-      { id: 1, name: 'Item 1' },
-      { id: 2, name: 'Item 2' },
-      { id: 3, name: 'Item 3' }
-    ];
-      console.log(this.items)
-      this.items = this.items.filter((item: { id: number; }) => item.id !== 2);
-      console.log(this.items)
-  }  
-
-  openchat(User: any, Created_at: any, Lastseen: any) {
+  openchat(User: any, Created_at: any, Lastseen: any, img: any) {
     // Active class Apply
     var li = document.getElementsByTagName("li")
     for (var i = 0; i < li.length; i++) {
@@ -131,6 +87,7 @@ export class ChatAppComponent implements OnInit {
     this.selectchat = true
     this.Username = User
     this.Lastseen = Lastseen
+    this.img = img
     var Chatname = "Chat" + (Number(this.result.Created_at) + Number(Created_at))
     console.log(Chatname, "chatname")
     // User Chat data create
@@ -218,9 +175,32 @@ export class ChatAppComponent implements OnInit {
       });
     }
   }
-
+  // Scroll to bottom 
   ngAfterContentChecked() {
     this.cdref.detectChanges();
   }
+
+
+  uploadImage(event: any) {
+    // const file = event.target.files[0];
+    // const filePath = 'images/' + file.name;
+    // const ref = this.storage.ref(filePath);
+    // const task = ref.put(file);
+    // task.snapshotChanges().pipe(
+    //   finalize(() => {
+    //     ref.getDownloadURL().subscribe(url => {
+    //       this.db.list('images').push({ url });
+    //     });
+    //   })
+    // ).subscribe();
+  }
+  display = 'block';
+  left = 0;
+
+  showlist() {
+    this.display = this.display === 'none' ? 'block' : 'none';
+    this.left = this.left === -400 ? 0 : 0;
+  }
+ 
 
 }
