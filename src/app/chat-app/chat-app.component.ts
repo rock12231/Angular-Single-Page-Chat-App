@@ -211,7 +211,7 @@ export class ChatAppComponent implements OnInit {
 
   showlist() {
     this.display = this.display === 'none' ? 'block' : 'none';
-    this.left = this.left === -400 ? 0 : 0;
+    this.left = this.left === -400 ? 0 : -400;
   }
  
 
