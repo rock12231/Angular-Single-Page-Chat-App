@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from "../shared/services/auth.service";
 
 @Component({
@@ -9,7 +10,12 @@ import { AuthService } from "../shared/services/auth.service";
 export class LoginComponent implements OnInit {
 
   Loading: boolean = false
-  constructor( public authService: AuthService ) { }
+  user :any
+  constructor(public authService: AuthService, router: Router ) {
+    if (JSON.parse(localStorage.getItem('user')!).uid !== null) {
+      router.navigate(['chat']);
+    }
+   }
 
   ngOnInit(): void {  }
 

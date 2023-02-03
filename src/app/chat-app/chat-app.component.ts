@@ -43,8 +43,8 @@ export class ChatAppComponent implements OnInit {
     // Get Logged in user
     var user = JSON.parse(localStorage.getItem('user')!)
     this.currentUser = user.email
-    console.log(user, "user")
-    console.log(this.currentUser, "current user")
+    // console.log(user, "user")
+    // console.log(this.currentUser, "current user")
    
     // this.http.get('https://chat-e2390-default-rtdb.firebaseio.com/Users/List').subscribe(data => {
     //   this.getdata = data;
@@ -54,16 +54,16 @@ export class ChatAppComponent implements OnInit {
     // Retrive Users data
     var re = this.db.database.ref("Users/List")
     re.on("value", snapshot => {
-      console.log(snapshot.val());
+      // console.log(snapshot.val());
       this.userlist = Object.values(snapshot.val());
-      console.log(this.userlist,"All users");
+      // console.log(this.userlist,"All users");
       // this.items = this.items.filter((item: { id: number; }) => item.id !== 2);
       this.userlist = this.userlist.filter((Data: { User: string; }) => Data.User !== this.currentUser)
-      console.log(this.userlist,"Remove current user");
+      // console.log(this.userlist,"Remove current user");
     });
     // Retrive Current User ID
     re.orderByChild("User").equalTo(this.currentUser).on("child_added",  (snapshot) => {
-      console.log(snapshot.key, "key user data");
+      // console.log(snapshot.key, "key user data");
       // Update Last seen of Current User
       var ref = this.db.database.ref("Users/List/" + snapshot.key)
       ref.update({
@@ -71,9 +71,9 @@ export class ChatAppComponent implements OnInit {
       })
       // Retrive Current User data
       ref.on("value", snapshot => {
-        console.log(snapshot.val());
+        // console.log(snapshot.val());
         this.result = snapshot.val()
-        console.log(this.result, "result");
+        // console.log(this.result, "result");
       })
     })
   }
@@ -94,7 +94,7 @@ export class ChatAppComponent implements OnInit {
     this.Lastseen = Lastseen
     this.img = img
     var Chatname = "Chat" + (Number(this.result.Created_at) + Number(Created_at))
-    console.log(Chatname, "chatname")
+    // console.log(Chatname, "chatname")
     // User Chat data create
     var ref = this.db.database.ref("Chats/List/" + Chatname + "/Info")
     ref.update({
@@ -106,9 +106,9 @@ export class ChatAppComponent implements OnInit {
     this.chatref.on("value", (snapshot: {
       exists(): unknown; val: () => { [s: string]: unknown; } | ArrayLike<unknown>; }) => {
       if (snapshot.exists()) {
-      console.log(snapshot.val());
+      // console.log(snapshot.val());
       this.chatlist = Object.values(snapshot.val())
-      console.log(this.chatlist);
+      // console.log(this.chatlist);
       }
       else {
         this.chatlist = [
@@ -185,7 +185,6 @@ export class ChatAppComponent implements OnInit {
     this.cdref.detectChanges();
   }
 
-
   uploadImage(event: any) {
     const Chatname = "Chat" + (Number(this.result.Created_at) + Number(this.Created))
     const file = event.target.files[0];
@@ -195,7 +194,7 @@ export class ChatAppComponent implements OnInit {
     task.snapshotChanges().pipe(
       finalize(() => {
         ref.getDownloadURL().subscribe(url => {
-          console.log(url, "url");
+          // console.log(url, "url");
           this.chatref.push({
             "sender": this.currentUser,
             "url": url,

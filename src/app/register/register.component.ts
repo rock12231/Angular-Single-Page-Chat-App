@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../shared/services/auth.service";
-import { AngularFireDatabase, AngularFireObject } from '@angular/fire/compat/database';
-import { Observable } from 'rxjs';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
 })
 export class RegisterComponent implements OnInit {
 
-  itemRef: AngularFireObject<any>;
-  item: Observable<any>;
+  // itemRef: AngularFireObject<any>;
+  // item: Observable<any>;
 
   Loading: boolean = false
 
@@ -26,22 +26,10 @@ export class RegisterComponent implements OnInit {
     "https://bootdey.com/img/Content/avatar/avatar8.png"
   ]
 
-  constructor(public authService: AuthService, public db: AngularFireDatabase) {
-    this.itemRef = db.object('Users/');
-    this.item = this.itemRef.valueChanges();
-    console.log(this.item);
-
-    var ref = this.db.database.ref("Users/List");
-    // ref.set({});
-    // var i;
-    // for(i=0; i<10; i++){
-    // ref.push({
-    //   "user": "User name"+i,
-    //   "image": "https://bootdey.com/img/Content/avatar/avatar1.png",
-    //   "Created": Date.now().toString()
-    //   });
-    // }
-
+  constructor(public authService: AuthService, public db: AngularFireDatabase, router: Router ) {
+    if (JSON.parse(localStorage.getItem('user')!).uid !== null) {
+      router.navigate(['chat']);
+    }
    }
 
   ngOnInit(): void { }
