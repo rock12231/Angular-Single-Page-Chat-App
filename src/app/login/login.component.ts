@@ -12,9 +12,9 @@ export class LoginComponent implements OnInit {
   Loading: boolean = false
   user :any
   constructor(public authService: AuthService, router: Router ) {
-    if (JSON.parse(localStorage.getItem('user')!).uid !== null) {
-      router.navigate(['chat']);
-    }
+    // if (JSON.parse(localStorage.getItem('user')!).uid !== null) {
+    //   router.navigate(['chat']);
+    // }
    }
 
   ngOnInit(): void {  }

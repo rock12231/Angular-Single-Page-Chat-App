@@ -27,9 +27,9 @@ export class RegisterComponent implements OnInit {
   ]
 
   constructor(public authService: AuthService, public db: AngularFireDatabase, router: Router ) {
-    if (JSON.parse(localStorage.getItem('user')!).uid !== null) {
-      router.navigate(['chat']);
-    }
+    // if (JSON.parse(localStorage.getItem('user')!).uid !== null) {
+    //   router.navigate(['chat']);
+    // }
    }
 
   ngOnInit(): void { }
