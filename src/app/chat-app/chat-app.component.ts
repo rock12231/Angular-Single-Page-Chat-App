@@ -210,8 +210,12 @@ export class ChatAppComponent implements OnInit {
   left = 0;
 
   showlist() {
-    this.display = this.display === 'none' ? 'block' : 'none';
-    this.left = this.left === -400 ? 0 : -400;
+    // If screen size is less than 768px
+    if (window.screen.width < 768) {
+      this.display = this.display === 'none' ? 'block' : 'none';
+      this.left = this.left === -400 ? 0 : -400;
+    }
+    
   }
  
 

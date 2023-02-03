@@ -22,18 +22,14 @@
                 <div id="plist" class="people-list" [style.display]="display" [style.left.px]="left">             
                     <div class="input-group bg-secondary">
                         <div class="row py-2 px-3">
-                            <div class="col-6">
-                                <img src="{{result.Image}}" alt="avatar" width="45px">
+                            <div class="col-4 text-center">
+                                <img src="{{result.Image}}" alt="avatar" width="64px">
                             </div>
-                            <div class="col-6">
-                                <a (click)="authService.SignOut()" class="btn btn-outline-warning float-right">
-                                    <i class="fa fa-arrow-circle-right" data-bs-toggle="tooltip" data-bs-placement="top" title="Logout"></i>
-                                </a>
-                            </div>
-                            <div class="col-12 text-center">
+                            <div class="col-8">
                                 <span class="d-block p-1 bg-secondary text-white">
                                     <div class="name font-weight-bold">{{result.User}}</div>
                                     <div class="status font-italic text-warning">Join Date: {{result.Created_at|date}}</div>
+                                    <a (click)="authService.SignOut()" class="text-warning">Logout</a>
                                 </span>
                             </div>
                         </div>
@@ -45,7 +41,7 @@
                         </div>
                         <input type="text" class="form-control" placeholder="Search...">
                     </div>
-                    <ul class="list-unstyled chat-list mt-2 mb-0 overflow-auto" style="height: 420px;" (click)="showlist()">
+                    <ul class="list-unstyled chat-list mt-2 mb-0 overflow-auto chat-ul" (click)="showlist()">
                         <li *ngFor="let user of userlist" class="clearfix" id="{{user.User}}" (click)="openchat(user.User, user.Created_at, user.Lastseen, user.Image)">
                             <div *ngIf="user.User">
                                 <img src="{{user.Image}}" alt="avatar">
@@ -65,12 +61,12 @@
                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                                 </a>
                                 <div class="chat-about">
-                                    <strong>Username</strong>
+                                    <strong>Username</strong><br>
                                     <small>Last seen time</small>
                                 </div>
                             </div>
                             <div class="col-lg-6 hidden-sm text-right">
-                                <a class="btn mx-1 btn-outline-secondary"><i class="fa fa-camera"></i></a>
+                                <!-- <a class="btn mx-1 btn-outline-secondary"><i class="fa fa-camera"></i></a> -->
                                 <a class="btn mx-1 btn-outline-primary"><i class="fa fa-image"></i></a>
                                 <a class="btn mx-1 btn-outline-info"><i class="fa fa-cogs"></i></a>
                                 <a class="btn btn-outline-warning"><i class="fa fa-trash"></i></a>
@@ -111,10 +107,10 @@
                             </div>
                             <div class="col-lg-6 pt-1 hidden-sm text-right">
                                 <label class="btn mx-1 my-0  btn-outline-secondary" for="file-input">
-                                    <i class="fa fa-camera"></i>
+                                    <i class="fa fa-image"></i>
                                     <input type="file" id="file-input" (change)="uploadImage($event)" style="display:none">
                                 </label>
-                                <a class="btn mx-1 btn-outline-primary"><i class="fa fa-image"></i></a>
+                                <!-- <a class="btn mx-1 btn-outline-primary"><i class="fa fa-camera"></i></a> -->
                                 <a class="btn mx-1 btn-outline-info"><i class="fa fa-cogs"></i></a>
                                 <a class="btn btn-outline-warning" data-toggle="modal" data-target="#staticBackdrop">
                                     <i class="fa fa-trash"></i>

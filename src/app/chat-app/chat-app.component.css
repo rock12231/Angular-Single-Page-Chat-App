@@ -19,7 +19,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      padding: 20px;
+      /* padding: 20px; */
       z-index: 7
   }
 
@@ -215,9 +215,13 @@
         display: none
   }
 
+  .chat-app .chat-ul{
+        height: 455px;
+      }
+
   @media only screen and (max-width: 767px) {
       .chat-app .people-list {
-          /* height: 465px; */
+          height: 700px;
           width: 100%;
           overflow-x: auto;
           background: #fff;
@@ -261,6 +265,10 @@
           overflow-x: auto
       }
 
+     .chat-app .chat-ul{
+        height: 450px;
+      }
+
       .chat-app .chat-history {
           height: 600px;
           overflow-x: auto
@@ -272,6 +280,10 @@
           height: 480px;
           overflow-x: auto
       }
+     
+      .chat-app .chat-ul {
+          height: 480px;
+        }
 
       .chat-app .chat-history {
           height: calc(100vh - 350px);
