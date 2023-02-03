@@ -2,6 +2,8 @@ import { Component, ChangeDetectorRef, ElementRef, OnInit, ViewChild } from '@an
 import { AngularFireDatabase, AngularFireObject } from '@angular/fire/compat/database';
 import { AuthService } from '../shared/services/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-chat-app',
@@ -17,6 +19,7 @@ export class ChatAppComponent implements OnInit {
   Username: any
   Lastseen: any
   img:any
+  Created: any
 
   // sender: any={
   //   "Username": "user_name",
@@ -35,6 +38,7 @@ export class ChatAppComponent implements OnInit {
               public authService: AuthService, 
               private http: HttpClient,
               private cdref: ChangeDetectorRef,
+              public storage: AngularFireStorage
               ) {
     // Get Logged in user
     var user = JSON.parse(localStorage.getItem('user')!)
@@ -77,6 +81,7 @@ export class ChatAppComponent implements OnInit {
   ngOnInit(){ }  
 
   openchat(User: any, Created_at: any, Lastseen: any, img: any) {
+    this.Created = Created_at
     // Active class Apply
     var li = document.getElementsByTagName("li")
     for (var i = 0; i < li.length; i++) {
@@ -182,18 +187,25 @@ export class ChatAppComponent implements OnInit {
 
 
   uploadImage(event: any) {
-    // const file = event.target.files[0];
-    // const filePath = 'images/' + file.name;
-    // const ref = this.storage.ref(filePath);
-    // const task = ref.put(file);
-    // task.snapshotChanges().pipe(
-    //   finalize(() => {
-    //     ref.getDownloadURL().subscribe(url => {
-    //       this.db.list('images').push({ url });
-    //     });
-    //   })
-    // ).subscribe();
+    const Chatname = "Chat" + (Number(this.result.Created_at) + Number(this.Created))
+    const file = event.target.files[0];
+    const filePath = 'User/Chats/' + Chatname + '/img' + '_' + Date.now();
+    const ref = this.storage.ref(filePath);
+    const task: AngularFireUploadTask = ref.put(file);
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        ref.getDownloadURL().subscribe(url => {
+          console.log(url, "url");
+          this.chatref.push({
+            "sender": this.currentUser,
+            "url": url,
+            "Created": Date.now().toString()
+          })
+        });
+      })
+    ).subscribe();
   }
+
   display = 'block';
   left = 0;
 

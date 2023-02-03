@@ -13,6 +13,7 @@ import { RegisterComponent } from './register/register.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { ChatAppComponent } from './chat-app/chat-app.component';
 import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from "./shared/services/auth.service";
@@ -36,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     AngularFireAuthModule,
+    AngularFireStorageModule,
     FormsModule,
     HttpClientModule
   ],

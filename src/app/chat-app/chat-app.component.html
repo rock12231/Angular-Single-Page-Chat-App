@@ -142,6 +142,15 @@
                                         {{chat.message}}
                                     </div>
                                 </div>
+                                <div *ngIf="chat.sender == currentUser && chat.url">
+                                    <div class="message-data">
+                                        <span class="message-data-time">{{chat.Created|date:'EEE h:mm a'}}</span>
+                                    </div>
+                                    <a class="message my-message">
+                                        <img src="{{chat.url}}" alt="avatar" height="100px">
+                                        <i class="fa fa-download pl-2" aria-hidden="true"></i>
+                                    </a>
+                                </div>
                                 <div *ngIf="chat.error">
                                     <div class="text-center">
                                         <span class="message-data-time">No Message</span>
