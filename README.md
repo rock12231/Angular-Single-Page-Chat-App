@@ -32,6 +32,10 @@ Follow the standard for the MVC pattern
 `ng g s shared/services/auth`
 `ng g c shared/services/chat`
 
+Deploy to App
+`firebase deploy --only hosting:chat` 
+
+
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding

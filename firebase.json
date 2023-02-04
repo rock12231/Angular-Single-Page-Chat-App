@@ -34,7 +34,7 @@
       ]
     },
     {
-      "target": "Chat",
+      "site": "help30",
       "public": "dist/Chat",
       "ignore": [
         "**/.*"

@@ -4,6 +4,7 @@ import { AuthService } from '../shared/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-app',
@@ -38,9 +39,15 @@ export class ChatAppComponent implements OnInit {
               public authService: AuthService, 
               private http: HttpClient,
               private cdref: ChangeDetectorRef,
-              public storage: AngularFireStorage
+              public storage: AngularFireStorage,
+              router: Router 
               ) {
     // Get Logged in user
+
+    if (JSON.parse(localStorage.getItem('user')!).uid === null) {
+      router.navigate(['login']);
+    }
+
     var user = JSON.parse(localStorage.getItem('user')!)
     this.currentUser = user.email
     // console.log(user, "user")
