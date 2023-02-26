@@ -85,7 +85,9 @@ export class ChatAppComponent implements OnInit {
     })
   }
 
-  ngOnInit(){ }  
+  ngOnInit(){ 
+    // this.playNotification()
+  }  
 
   openchat(User: any, Created_at: any, Lastseen: any, img: any) {
     this.Created = Created_at
@@ -115,6 +117,10 @@ export class ChatAppComponent implements OnInit {
       if (snapshot.exists()) {
       // console.log(snapshot.val());
       this.chatlist = Object.values(snapshot.val())
+
+      if(this.currentUser != this.chatlist[this.chatlist.length - 1].sender){
+        this.playNotification()
+      }
       // console.log(this.chatlist);
       }
       else {
@@ -222,6 +228,13 @@ export class ChatAppComponent implements OnInit {
       this.left = this.left === -400 ? 0 : -400;
     }
     
+  }
+
+  playNotification() {
+    let audio = new Audio();
+    audio.src = "../../../assets/tone/Pikachu1.mp3";
+    audio.load();
+    audio.play();
   }
  
 
