@@ -125,24 +125,25 @@
                     <div class="chat-history overflow-auto" style="height: 500px;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
                         <ul class="m-b-0">
                             <li *ngFor="let chat of chatlist" class="clearfix">
-                                <div *ngIf="chat.sender != currentUser && chat.message">
+                                <div *ngIf="chat.sender == currentUser && chat.message">
                                     <div class="message-data text-right">
-                                        <span class="message-data-time">{{chat.Created|date:'shortTime'}}</span>
-                                        <img src="{{img}}" alt="avatar">
+                                        <span class="message-data-time">{{chat.Created|date:'EEE h:mm a'}}</span>
+                                        <!-- <img src="{{img}}" alt="avatar"> -->
                                     </div>
                                     <div class="message other-message float-right">
                                         {{chat.message}}
                                     </div>
                                 </div>
-                                <div *ngIf="chat.sender == currentUser && chat.message">
+                                <div *ngIf="chat.sender != currentUser && chat.message">
                                     <div class="message-data">
+                                        <img src="{{img}}" alt="avatar">
                                         <span class="message-data-time">{{chat.Created|date:'EEE h:mm a'}}</span>
                                     </div>
                                     <div class="message my-message">
                                         {{chat.message}}
                                     </div>
                                 </div>
-                                <div *ngIf="chat.sender == currentUser && chat.url">
+                                <div *ngIf="chat.sender != currentUser && chat.url">
                                     <div class="message-data">
                                         <span class="message-data-time">{{chat.Created|date:'EEE h:mm a'}}</span>
                                     </div>
@@ -177,10 +178,10 @@
                     </div>
                     <div class="chat-message clearfix">
                         <div class="input-group mb-0">
+                            <input type="text" id="message" class="form-control" #message placeholder="{{Placeholder}}" (keydown.enter)="sendMessage(message.value)">
                             <div class="input-group-prepend" (click)="sendMessage(message.value)">
                                 <span class="input-group-text"><i class="fa fa-send"></i></span>
                             </div>
-                            <input type="text" id="message" class="form-control" #message placeholder="{{Placeholder}}" (keydown.enter)="sendMessage(message.value)">
                         </div>
                     </div>
                 </div>
